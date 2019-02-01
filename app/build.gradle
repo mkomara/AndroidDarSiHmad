@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.google.api-client:google-api-client-android:+'
 
     implementation 'com.google.api-client:google-api-client-gson:+'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 }
