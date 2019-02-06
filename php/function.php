@@ -20,12 +20,12 @@ function InsertData(){
 
 }
 
-function RequestUser($userName'$connection){
-	$Query = "SELECT name,password,role_id FROM users where name='$userName'";
+function RequestUser($email'$connection){
+	$Query = "SELECT id_user,role_id FROM users where email='$email'";
 	$result = $connection->query($Query);
 	if($result->num_rows > 0){
  		while ( $row = $result->fetch_assoc()) {
- 			print(" User% name:".$row["name"]."password:".$row["password"]."role_id:".$row["role_id"]);
+ 			print(" User%{id_user:".$row["id_user"].",role_id:".$row["role_id"]."}");
  		}
  	}
 	else{
