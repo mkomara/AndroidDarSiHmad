@@ -6,17 +6,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import Objects.User;
+import Objects.Site;
+
+
 public class DistantAccess implements AsyncResponse {
 
     //change the string value
   private final String SERVERADDR = "http://serverIpAdress/folder/file.php";
+  private User user;
+  private ArrayList<Site> SiteList;
 // private User user;
   public DistantAccess(){
       super();
+      this.SiteList = new ArrayList<Site>();
   }
 
+
     /**
-     * pour envoyé les information a la bd
+     * pour envoyé les informations a la bd
      * @param operation
      * @param jsonData
      */
@@ -56,18 +66,28 @@ public class DistantAccess implements AsyncResponse {
             if(response[0].equals("User")){
                 try {
                     JSONObject infos = new JSONObject(response[1]);
-                    String email = infos.getString("id_user");
+
+                    int id_user = infos.getInt("id_user");
+                    String email = infos.getString("email");
                     String role = infos.getString("role_id");
-                    //User user = new User(Name,password,role);
-                    //this.setUser(user);
+
+                    User user = new User(id_user,email,role);
+                    this.setUser(user);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            else if(response[0]=="sites"){
+            else if(response[0]=="site"){
                 try{
-                    JSONObject infos = new JSONObject(response[1]);
+
+                    for(int i = 1; i < response.length;i++) {
+                        JSONObject infos = new JSONObject(response[i]);
+                        int id = infos.getInt("id_site");
+                        String name = infos.getString("site");
+                        Site site = new Site(id, name);
+                        this.SiteList.add(site);
+                    }
 
                 }
                 catch (JSONException e){
@@ -75,5 +95,21 @@ public class DistantAccess implements AsyncResponse {
                 }
             }
         }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ArrayList<Site> getSiteList() {
+        return SiteList;
+    }
+
+    public void setSiteList(ArrayList<Site> siteList) {
+        SiteList = siteList;
     }
 }
